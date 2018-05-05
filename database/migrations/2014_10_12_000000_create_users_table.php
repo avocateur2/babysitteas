@@ -26,12 +26,12 @@ class CreateUsersTable extends Migration
           array(
             'name' => 'Aix-en-Provence',
             'email' => 'test1@test.com',
-            'password' => '1111'
+            'password' => bcrypt('111111'),
           ),
           array(
             'name' => 'Commerce',
             'email' => 'test2@test.com',
-            'password' => '2222'
+            'password' => bcrypt('222222'),
           ),
         ];
         DB::table('users')->insert($defaultUsers);
