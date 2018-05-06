@@ -1,79 +1,53 @@
 <?php
 
-
 namespace App\Http\Controllers\API;
 
-
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
-use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Http\Request;
 
+use Config;
+use Auth;
+use App\User;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
-
-
-  public $successStatus = 200;
-
-
-  /**
-   * login api
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function login()
+  public function getUsers()
   {
-    if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
-      $user = Auth::user();
-      $success['token'] =  $user->createToken('MyApp')->accessToken;
-      return response()->json(['success' => $success], $this->successStatus);
-    }
-    else{
-      return response()->json(['error'=>'Unauthorised'], 401);
-    }
+    $users = User::all();
+    $userResource = new UserCollection($users);
+
+    return $userResource;
   }
 
-
-  /**
-   * Register api
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function register(Request $request)
+  public function getUser($id)
   {
-    $validator = Validator::make($request->all(), [
-      'name' => 'required',
-      'email' => 'required|email',
-      'password' => 'required',
-      'c_password' => 'required|same:password',
-    ]);
+    $perms = Config::get('constants.permissions.user');
+    $userAuth = Auth::user();
 
+    $authorized = true;
 
-    if ($validator->fails()) {
-      return response()->json(['error'=>$validator->errors()], 401);            
+    if (!$userAuth->can($perms['any']['read'])) {
+      if (!$userAuth->can($perms['own']['read'])) {
+        $authorized = false;
+      } else {
+        if ($userAuth->id !== $id) {
+          $authorized = false;
+        }
+      }
     }
 
-    $input = $request->all();
-    $input['password'] = bcrypt($input['password']);
-    $user = User::create($input);
-    $success['token'] =  $user->createToken('MyApp')->accessToken;
-    $success['name'] =  $user->name;
+    if($authorized) {
+      $user = User::find($id);
+      var_dump($user->toArray());
+      $userResource = new UserResource($user);
 
+      $response = $userResource;
+    } else {
+      $response = redirect()->route('unauthorized');
+    }
 
-    return response()->json(['success'=>$success], $this->successStatus);
-  }
-
-
-  /**
-   * details api
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function details()
-  {
-    $user = Auth::user();
-    return response()->json(['success' => $user], $this->successStatus);
+    return $response;
   }
 }
