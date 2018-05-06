@@ -33,8 +33,8 @@ Route::any('success', function()
   return response('', 200);
 })->name('success');
 
-Route::post('login', 'API\AuthController@login');
-Route::post('register', 'API\AuthController@register');
+Route::post('login', 'AuthController@login');
+Route::post('register', 'AuthController@register');
 
 Route::group(['middleware' => 'auth:api'], function() use($permissions, $roles) {
   $routes = array(

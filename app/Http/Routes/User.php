@@ -14,13 +14,13 @@ abstract class User
       'getAll' => array(
         'verb'       => 'GET',
         'route'      => 'users',
-        'action'     => 'API\UserController@getUsers',
+        'action'     => 'UserController@getUsers',
         'middleware' => "permission:{$permissions['user']['any']['read']}",
       ),
       'getOne' => array(
         'verb'       => 'GET',
         'route'      => 'user/{id}',
-        'action'     => 'API\UserController@getUser',
+        'action'     => 'UserController@getUser',
         'middleware' => "permission:{$permissions['user']['any']['read']}|{$permissions['user']['own']['read']}",
       ),
     );
