@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Publish extends Model
 {
   protected $fillable = [
-    'hour', 'duration', 'periodicity',
+    'scheduled', 'duration',
   ];
 
   protected $guarded = [

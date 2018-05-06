@@ -8,20 +8,27 @@ abstract class User
 {
   public static function getRoutes()
   {
-    $permissions = Config::get('constants.permissions');
+    $perms = Config::get('constants.permissions');
+    $usrPerms = $perms['user'];
 
     return array(
-      'getAll' => array(
+      array(
         'verb'       => 'GET',
         'route'      => 'users',
         'action'     => 'UserController@getUsers',
-        'middleware' => "permission:{$permissions['user']['any']['read']}",
+//        'middleware' => "permission:{$usrPerms['any']['read']}",
       ),
-      'getOne' => array(
+      array(
         'verb'       => 'GET',
-        'route'      => 'user/{id}',
+        'route'      => 'users/{id}',
         'action'     => 'UserController@getUser',
-        'middleware' => "permission:{$permissions['user']['any']['read']}|{$permissions['user']['own']['read']}",
+//        'middleware' => "permission:{$usrPerms['any']['read']}|{$usrPerms['own']['read']}",
+      ),
+      array(
+        'verb'       => 'GET',
+        'route'      => 'users/self',
+        'action'     => 'UserController@getSelf',
+//        'middleware' => "permission:{$usrPerms['own']['read']}",
       ),
     );
   }

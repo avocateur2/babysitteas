@@ -16,6 +16,9 @@ class CreateEventsTable extends Migration
     Schema::create('events', function (Blueprint $table) {
       $table->increments('id');
       $table->string('name');
+      $table->string('datestart');
+      $table->string('dateend');
+      $table->string('price');
       $table->string('url');
       $table->timestamps();
 
@@ -25,6 +28,26 @@ class CreateEventsTable extends Migration
         ->references('id')
         ->on('users');
     });
+
+    $eventDefault = [
+      array(
+        'name' => 'Parc de la Rose',
+        'datestart' => '19h',
+        'dateend' => '02h',
+        'price' => 'GRATUIT',
+        'url' => '/img/evt1.jpg',
+        'user_id' => 2,
+      ),
+      array(
+        'name' => "Flâneries d'Art Comtemporain",
+        'datestart' => '14h',
+        'dateend' => '08h',
+        'price' => 'GRATUIT',
+        'url' => '/img/evt2.jpg',
+        'user_id' => 2,
+      ),
+    ];
+    DB::table('events')->insert($eventDefault);
   }
 
   /**

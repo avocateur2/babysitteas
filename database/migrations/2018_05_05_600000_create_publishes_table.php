@@ -20,6 +20,11 @@ class CreatePublishesTable extends Migration
       $table->morphs('publishable');
       $table->timestamps();
     });
+
+    $publishDefault = [
+      
+    ];
+    DB::table('publishes')->insert($publishDefault);
   }
 
   /**

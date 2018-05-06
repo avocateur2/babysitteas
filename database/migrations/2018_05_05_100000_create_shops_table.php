@@ -18,6 +18,7 @@ class CreateShopsTable extends Migration
       $table->string('name');
       $table->string('address');
       $table->string('hours');
+      $table->integer('rating');
       $table->timestamps();
 
       $table->unsignedInteger('user_id');
@@ -26,6 +27,24 @@ class CreateShopsTable extends Migration
         ->references('id')
         ->on('users');
     });
+
+    $defaultShops = [
+      array(
+        'name' => 'Daurade Land',
+        'address' => 'La Rotonde|13100 Aix-en-Provence',
+        'hours' => 'Mardi-Jeudi|8h-19h',
+        'rating' => 2,
+        'user_id' => 3,
+      ),
+      array(
+        'name'=>'O Délice des Fruits',
+        'address' => '127 Rue de la République|13100 Aix-en-Porvence',
+        'hours' => 'Lundi-Samedi|9h-18h',
+        'rating' => 4,
+        'user_id' => 3,
+      ),
+    ];
+    DB::table('shops')->insert($defaultShops);
   }
 
   /**

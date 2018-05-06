@@ -16,6 +16,7 @@ class CreateAlertsTable extends Migration
     Schema::create('alerts', function (Blueprint $table) {
       $table->increments('id');
       $table->string('name');
+      $table->string('text');
       $table->string('url');
       $table->timestamps();
 
@@ -25,6 +26,16 @@ class CreateAlertsTable extends Migration
         ->references('id')
         ->on('users');
     });
+
+    $alertDefault = [
+      array(
+        'name' => 'Alerte enlèvement',
+        'text' => "Le sommeil a disparu. Si vous avez quelques informations que ce soit, merci de nous les communiquer",
+        'url' => '/img/alt1.jpg',
+        'user_id' => 2,
+      ),
+    ];
+    DB::table('alerts')->insert($alertDefault);
   }
 
   /**

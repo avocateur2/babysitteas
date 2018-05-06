@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Advertisement extends Model
 {
   protected $fillable = [
-    'name', 'url',
+    'url',
   ];
 
   protected $guarded = [
     'id',
   ];
 
-  public function user()
+  public function shop()
   {
-    return $this->belongsTo('App\User');
+    return $this->belongsTo('App\Model\Shop');
   }
 
   public function publishes()

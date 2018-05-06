@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controller;
+use App\Http\ApiController;
 use Illuminate\Http\Request;
 
 use Config;
@@ -11,7 +11,7 @@ use App\User;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\User as UserResource;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
   public function getUsers()
   {
@@ -24,7 +24,7 @@ class UserController extends Controller
   public function getUser($id)
   {
     $perms = Config::get('constants.permissions.user');
-    $userAuth = Auth::user();
+    $userAuth = $this->request->user();
 
     $authorized = true;
 
@@ -40,7 +40,6 @@ class UserController extends Controller
 
     if($authorized) {
       $user = User::find($id);
-      var_dump($user->toArray());
       $userResource = new UserResource($user);
 
       $response = $userResource;

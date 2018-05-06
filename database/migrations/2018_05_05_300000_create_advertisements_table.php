@@ -15,16 +15,27 @@ class CreateAdvertisementsTable extends Migration
   {
     Schema::create('advertisements', function (Blueprint $table) {
       $table->increments('id');
-      $table->string('name');
       $table->string('url');
       $table->timestamps();
 
-      $table->unsignedInteger('user_id');
+      $table->unsignedInteger('shop_id');
       $table
-        ->foreign('user_id')
+        ->foreign('shop_id')
         ->references('id')
-        ->on('users');
+        ->on('shops');
     });
+
+    $defaultAdv = [
+      array(
+        'url' => 'img/adv1.jpg',
+        'shop_id' => 1,
+      ),
+      array(
+        'url' => 'img/adv2.jpg',
+        'shop_id' => 2,
+      ),
+    ];
+    DB::table('advertisements')->insert($defaultAdv);
   }
 
   /**

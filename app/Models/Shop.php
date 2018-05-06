@@ -14,7 +14,7 @@ class Shop extends Model
   protected $table = 'shops';
 
   protected $fillable = [
-    'name', 'address', 'hours',
+    'name', 'address', 'hours', 'rating',
   ];
 
   protected $guarded = [

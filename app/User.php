@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
       return $this->hasMany('App\Models\Alert');
     }
+
+    public function roles()
+    {
+      return $this->belongsToMany('App\Models\Role');;
+    }
 }

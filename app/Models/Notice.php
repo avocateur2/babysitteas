@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Notice extends Model
 {
   protected $fillable = [
-    'name', 'url',
+    'title', 'text',
   ];
 
   protected $guarded = [

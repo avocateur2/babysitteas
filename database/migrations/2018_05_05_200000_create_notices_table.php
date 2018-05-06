@@ -15,8 +15,8 @@ class CreateNoticesTable extends Migration
   {
     Schema::create('notices', function (Blueprint $table) {
       $table->increments('id');
-      $table->string('name');
-      $table->string('url');
+      $table->string('title');
+      $table->string('text');
       $table->timestamps();
 
       $table->unsignedInteger('user_id');
@@ -25,6 +25,25 @@ class CreateNoticesTable extends Migration
         ->references('id')
         ->on('users');
     });
+
+    $noticeDefault = [
+      array(
+        'title' => 'Cours de danse',
+        'text' => "Tiphaine, à l'insu de son plein gré, vous propose des cours de danse pour relâcher la pression",
+        'user_id' => 4,
+      ),
+      array(
+        'title' => 'Cours OpenClassroom',
+        'text' => "Recherche cours d'Open Class Rooms pour apprendre language de base tel que le html, css, python et c++",
+        'user_id' => 4,
+      ),
+      array(
+        'title' => 'ON VEUT DE LA VIANDE',
+        'text' => "J'ai faim,J'ai faim,J'ai faim,J'ai faim,J'ai faim,J'ai faim,J'ai faim,J'ai faim,J'ai faim,J'ai faim,",
+        'user_id' => 4,
+      ),
+    ];
+    DB::table('notices')->insert($noticeDefault);
   }
 
   /**
